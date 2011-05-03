@@ -12,7 +12,10 @@ var tests = {
         assert(this.a).not().not().equals(5);
     },
     between: function() {
-        assert(this.a).between(0, 10);
+        assert(this.a).between(0, 10); // [0, 10]
+        assert(this.a).between(0); // [0, [
+        assert(this.a).between(null, 10); // ], 10]
+        assert(-5).between(null, 10); // ], 10]
     },
     isDefined: function() {
         assert(this.a).isDefined();

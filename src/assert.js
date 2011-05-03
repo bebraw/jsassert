@@ -67,9 +67,18 @@ var assert = function(stmt) {
         },
         between: {
             error: function(a, b) {
+                // TODO: improve msgs for null cases
                 return stmt + ' was not between ' + a + ' and ' + b + '!'
             },
             method: function(a, b) {
+                if(a == null) {
+                    return stmt <= b;
+                }
+                
+                if(b == null) {
+                    return a <= stmt;
+                }
+                
                 return a <= stmt && stmt <= b;
             }
         },
