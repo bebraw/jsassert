@@ -28,16 +28,28 @@ var tests = {
         assert(this.a).within(1, 3, 5, 10);
     },
     run: function(output) {
+        var passedTests = 0;
+        var testTotal = 0;
+        
         for(var k in this) {
             var v = this[k];
             
             if(k != 'run' && k != '_') {
                 try {
                     v.apply(this._);
-                } catch(e) {
-                    output('Test "' + k + '" failed! ' + e);
+                    
+                    output('PASSED: ' + k);
+                    
+                    passedTests++;
                 }
+                catch(e) {
+                    output('FAILED: ' + k + ' ' + e);
+                }
+                
+                testTotal++;
             }
         }
+        
+        output(passedTests + '/' + testTotal + ' tests passed');
     }
 };
