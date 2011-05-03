@@ -24,6 +24,9 @@ var tests = {
         assert(this.a).is('number');
         assert(this.a).is('array', 'number');
     },
+    within: function() {
+        assert(this.a).within(1, 3, 5, 10);
+    },
     run: function(output) {
         for(var k in this) {
             var v = this[k];

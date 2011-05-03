@@ -1,4 +1,27 @@
 var assert = function(stmt) {
+    var argumentsError = function() {
+        // slow! http://bonsaiden.github.com/JavaScript-Garden/#function.arguments
+        var args = Array.prototype.slice.call(arguments);
+
+        if(args.length == 1) {
+            return stmt + ' is not ' + args[0] + '!';
+        }
+
+        return stmt + ' not in: ' + args.join(', ');        
+    };
+    
+    var checkArguments = function(args, cb) {
+        for(var i = 0; i < args.length; i++) {
+            var value = args[i];
+            
+            if(cb(value)) {
+                return true;
+            }
+        }
+        
+        return false;
+    };
+    
     var methods = {
         equals: {
             error: function(val) {
@@ -9,16 +32,7 @@ var assert = function(stmt) {
             }
         },
         is: {
-            error: function() {
-                // slow! http://bonsaiden.github.com/JavaScript-Garden/#function.arguments
-                var args = Array.prototype.slice.call(arguments);
-
-                if(args.length == 1) {
-                    return stmt + ' is not a ' + args[0] + '!';
-                }
-
-                return stmt + ' not in types: ' + args.join(', ');
-            },
+            error: argumentsError,
             method: function() {
                 // borrowed from RightJS
                 var to_s = Object.prototype.toString;
@@ -41,17 +55,29 @@ var assert = function(stmt) {
                     }
                 };
 
-                for(var i = 0; i < arguments.length; i++) {
-                    var value = arguments[i];
+                return checkArguments(arguments,
+                    function(value) {
+                        if(value in typeChecks) {
+                            var matched = typeChecks[value](stmt);
 
-                    if(value in typeChecks) {
-                        var matched = typeChecks[value](stmt);
-
-                        if(matched) {
-                            return true;
+                            if(matched) {
+                                return true;
+                            }
                         }
+
+                        return false;
                     }
-                }
+                );
+            }
+        },
+        within: {
+            error: argumentsError,
+            method: function() {
+                return checkArguments(arguments,
+                    function(value) {
+                        return value == stmt;
+                    }
+                );
 
                 return false;
             }
