@@ -36,6 +36,7 @@ var tests = {
             
             if(k != 'run' && k != '_') {
                 try {
+                    // TODO: pass a clone instead! Good enough for now.
                     v.apply(this._);
                     
                     output('PASSED: ' + k);
