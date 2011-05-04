@@ -1,4 +1,4 @@
-var tests = {
+tests('Assert', {
     _: {
         a: 5
     },
@@ -26,31 +26,5 @@ var tests = {
     },
     within: function() {
         assert(this.a).within(1, 3, 5, 10);
-    },
-    run: function(output) {
-        var passedTests = 0;
-        var testTotal = 0;
-        
-        for(var k in this) {
-            var v = this[k];
-            
-            if(k != 'run' && k != '_') {
-                try {
-                    // TODO: pass a clone instead! Good enough for now.
-                    v.apply(this._);
-                    
-                    output('PASSED: ' + k);
-                    
-                    passedTests++;
-                }
-                catch(e) {
-                    output('FAILED: ' + k + ' ' + e);
-                }
-                
-                testTotal++;
-            }
-        }
-        
-        output(passedTests + '/' + testTotal + ' tests passed');
     }
-};
+});
