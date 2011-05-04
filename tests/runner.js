@@ -44,12 +44,12 @@ var tests = function(setName, newTests) {
                     try {
                         test.apply(clone(attrs));
 
-                        output('PASSED: ' + testName);
+                        output('%cPASSED: ' + testName, 'color: green');
 
                         passedTests++;
                     }
                     catch(e) {
-                        output('FAILED: ' + testName);
+                        output('%cFAILED: ' + testName, 'color: red');
                         output('    ' + e);
                     }
 
@@ -57,7 +57,10 @@ var tests = function(setName, newTests) {
                 }
             }
 
-            output(passedTests + '/' + testTotal + ' tests passed');
+            var color = passedTests == testTotal? 'green': 'red';
+
+            output('%c' + passedTests + '/' + testTotal + ' tests passed',
+                'color: ' + color);
         }
     };
 };
