@@ -18,12 +18,16 @@
         window.onload = function() {
             var outputArea = document.getElementById('testOutput');
 
-            var output = function(text) {
-                outputArea.innerHTML += text;
+            var HTMLOutput = function(report) {
+                outputArea.innerHTML += '<div class="' + report.state +
+                    '">' + report.text + '</div>';
             };
 
-            // piping to console.log fails at Chrome for some reason...
-            tests().run(output);
+            var consoleOutput = function(report) {
+                console.log(report.text);
+            };
+
+            tests().run(HTMLOutput);
         }
     </script>
 </head>

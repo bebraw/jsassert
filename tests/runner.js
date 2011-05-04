@@ -36,7 +36,7 @@ var tests = function(setName, newTests) {
                 var attrs = testSet._ || {};
                 delete testSet._;
 
-                output('<div>Running "' + model.name + '" tests</div>');
+                output({state: 'started', text: 'Running "' + model.name + '" tests'});
 
                 for(var testName in testSet) {
                     var test = testSet[testName];
@@ -44,22 +44,20 @@ var tests = function(setName, newTests) {
                     try {
                         test.apply(clone(attrs));
 
-                        output('<div class="passed">PASSED: ' + testName + '</div>');
+                        output({state: 'passed', text: 'PASSED: ' + testName});
 
                         passedTests++;
                     }
                     catch(e) {
-                        output('<div class="failed">FAILED: ' + testName + '</div>');
-                        output('    ' + e);
+                        output({state: 'failed', text: 'FAILED: ' + testName});
+                        output({state: 'error', text: e});
                     }
 
                     testTotal++;
                 }
             }
 
-            var passClass = passedTests == testTotal? 'passed': 'failed';
-
-            output('<div class="' + passClass + '">' + passedTests + '/' + testTotal + ' tests passed</div>');
+            output({state: 'finished', text: passedTests + '/' + testTotal + ' tests passed'});
         }
     };
 };
