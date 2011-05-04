@@ -36,7 +36,7 @@ var tests = function(setName, newTests) {
                 var attrs = testSet._ || {};
                 delete testSet._;
 
-                output('Running "' + model.name + '" tests');
+                output('<div>Running "' + model.name + '" tests</div>');
 
                 for(var testName in testSet) {
                     var test = testSet[testName];
@@ -44,12 +44,12 @@ var tests = function(setName, newTests) {
                     try {
                         test.apply(clone(attrs));
 
-                        output('%cPASSED: ' + testName, 'color: green');
+                        output('<div class="passed">PASSED: ' + testName + '</div>');
 
                         passedTests++;
                     }
                     catch(e) {
-                        output('%cFAILED: ' + testName, 'color: red');
+                        output('<div class="failed">FAILED: ' + testName + '</div>');
                         output('    ' + e);
                     }
 
@@ -57,10 +57,9 @@ var tests = function(setName, newTests) {
                 }
             }
 
-            var color = passedTests == testTotal? 'green': 'red';
+            var passClass = passedTests == testTotal? 'passed': 'failed';
 
-            output('%c' + passedTests + '/' + testTotal + ' tests passed',
-                'color: ' + color);
+            output('<div class="' + passClass + '">' + passedTests + '/' + testTotal + ' tests passed</div>');
         }
     };
 };
