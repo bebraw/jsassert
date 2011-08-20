@@ -25,9 +25,20 @@ var tests = function(setName, newTests) {
     }
     
     return {
-        run: function(output) {
+        run: function(opts) {
             var passedTests = 0;
             var testTotal = 0;
+
+            var output = 'output' in opts? opts.output: function() {};
+            var refresh = 'refresh' in opts? opts.refresh: 0;
+
+            if(refresh) {
+                var reload = function() {
+                    location.reload(true);
+                };
+
+                setTimeout(reload, refresh);
+            }
 
             for(var i = 0; i < scope.testsToRun.length; i++) {
                 var model = scope.testsToRun[i];
