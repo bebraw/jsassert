@@ -26,5 +26,8 @@ tests('Assert', {
     },
     within: function() {
         assert(this.a).within(1, 3, 5, 10);
+    },
+    arrays: function() {
+        assert([1, 2, 3]).equals([1, 2, 3]);
     }
 });
